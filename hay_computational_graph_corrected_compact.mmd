@@ -26,8 +26,10 @@ graph TD
     morphology --> nseg
     L --> area
     diam --> area
+    nseg --> area
     L --> Rij
     diam --> Rij
+    nseg --> Rij
     Ra --> Rij
     V --> Iax_k
     Vj --> Iax_k
@@ -274,97 +276,3 @@ graph TD
     class morphology,L,diam,nseg,Ra,cm,ena,ek,eca,ehcn,e_pas,g_pas,gbar_NaTa,gbar_NaTs2,gbar_Nap,gbar_KT,gbar_KP,gbar_SKv,gbar_Im,gbar_SKE2,gbar_CaHVA,gbar_CaLVA,gamma,decay,depth,minCai,faraday,gbar_Ih,section_type,distance_soma,model_set param
     class area,Rij,Iax_k,Iax,I_pas,g_NaTa,g_NaTs2,g_Nap,I_NaTa,I_NaTs2,I_Nap,I_Na_total,g_KT,g_KP,g_SKv,g_Im,g_SKE2,I_KT,I_KP,I_SKv,I_Im,I_SKE2,I_K_total,g_CaHVA,g_CaLVA,I_CaHVA,I_CaLVA,ica_total,dcai_dt,g_Ih,I_Ih,I_membrane,dVdt,Q,distribution_rule derived
     class IClamp,epsp input
-
-    %% Direct styles for Mermaid renderers that ignore classDef/class.
-    style V fill:#ff9999,stroke:#333,stroke-width:2px
-    style cai fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_NaTa fill:#ff9999,stroke:#333,stroke-width:2px
-    style h_NaTa fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_NaTs2 fill:#ff9999,stroke:#333,stroke-width:2px
-    style h_NaTs2 fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_Nap fill:#ff9999,stroke:#333,stroke-width:2px
-    style h_Nap fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_KT fill:#ff9999,stroke:#333,stroke-width:2px
-    style h_KT fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_KP fill:#ff9999,stroke:#333,stroke-width:2px
-    style h_KP fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_SKv fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_Im fill:#ff9999,stroke:#333,stroke-width:2px
-    style z_SKE2 fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_CaHVA fill:#ff9999,stroke:#333,stroke-width:2px
-    style h_CaHVA fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_CaLVA fill:#ff9999,stroke:#333,stroke-width:2px
-    style h_CaLVA fill:#ff9999,stroke:#333,stroke-width:2px
-    style m_Ih fill:#ff9999,stroke:#333,stroke-width:2px
-    style Vj fill:#ffcccc,stroke:#333,stroke-width:2px
-
-    style morphology fill:#99ccff,stroke:#333,stroke-width:2px
-    style L fill:#99ccff,stroke:#333,stroke-width:2px
-    style diam fill:#99ccff,stroke:#333,stroke-width:2px
-    style nseg fill:#99ccff,stroke:#333,stroke-width:2px
-    style Ra fill:#99ccff,stroke:#333,stroke-width:2px
-    style cm fill:#99ccff,stroke:#333,stroke-width:2px
-    style ena fill:#99ccff,stroke:#333,stroke-width:2px
-    style ek fill:#99ccff,stroke:#333,stroke-width:2px
-    style eca fill:#99ccff,stroke:#333,stroke-width:2px
-    style ehcn fill:#99ccff,stroke:#333,stroke-width:2px
-    style e_pas fill:#99ccff,stroke:#333,stroke-width:2px
-    style g_pas fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_NaTa fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_NaTs2 fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_Nap fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_KT fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_KP fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_SKv fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_Im fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_SKE2 fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_CaHVA fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_CaLVA fill:#99ccff,stroke:#333,stroke-width:2px
-    style gamma fill:#99ccff,stroke:#333,stroke-width:2px
-    style decay fill:#99ccff,stroke:#333,stroke-width:2px
-    style depth fill:#99ccff,stroke:#333,stroke-width:2px
-    style minCai fill:#99ccff,stroke:#333,stroke-width:2px
-    style faraday fill:#99ccff,stroke:#333,stroke-width:2px
-    style gbar_Ih fill:#99ccff,stroke:#333,stroke-width:2px
-    style section_type fill:#99ccff,stroke:#333,stroke-width:2px
-    style distance_soma fill:#99ccff,stroke:#333,stroke-width:2px
-    style model_set fill:#99ccff,stroke:#333,stroke-width:2px
-
-    style area fill:#ffff99,stroke:#333,stroke-width:2px
-    style Rij fill:#ffff99,stroke:#333,stroke-width:2px
-    style Iax_k fill:#ffff99,stroke:#333,stroke-width:2px
-    style Iax fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_pas fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_NaTa fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_NaTs2 fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_Nap fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_NaTa fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_NaTs2 fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_Nap fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_Na_total fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_KT fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_KP fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_SKv fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_Im fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_SKE2 fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_KT fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_KP fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_SKv fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_Im fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_SKE2 fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_K_total fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_CaHVA fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_CaLVA fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_CaHVA fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_CaLVA fill:#ffff99,stroke:#333,stroke-width:2px
-    style ica_total fill:#ffff99,stroke:#333,stroke-width:2px
-    style dcai_dt fill:#ffff99,stroke:#333,stroke-width:2px
-    style g_Ih fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_Ih fill:#ffff99,stroke:#333,stroke-width:2px
-    style I_membrane fill:#ffff99,stroke:#333,stroke-width:2px
-    style dVdt fill:#ffff99,stroke:#333,stroke-width:2px
-    style Q fill:#ffff99,stroke:#333,stroke-width:2px
-    style distribution_rule fill:#ffff99,stroke:#333,stroke-width:2px
-
-    style IClamp fill:#99ff99,stroke:#333,stroke-width:2px
-    style epsp fill:#99ff99,stroke:#333,stroke-width:2px
