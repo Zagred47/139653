@@ -1,0 +1,139 @@
+graph TD
+    %% Variabili di Stato (S)
+    V["V (Voltaggio)"]:::state
+    Ca_i["Ca_i (Calcio interno)"]:::state
+    gate_m_Na["m_Na (gate Na)"]:::state
+    gate_h_Na["h_Na (gate Na)"]:::state
+    gate_m_K["m_K (gate K)"]:::state
+    gate_h_K["h_K (gate K)"]:::state
+    gate_m_Ca["m_Ca (gate Ca)"]:::state
+    gate_h_Ca["h_Ca (gate Ca)"]:::state
+    gate_m_Ih["m_Ih (gate Ih)"]:::state
+    gate_z_SK["z_SK (gate SK)"]:::state
+
+    %% Parametri (P)
+    Cm["Cm (Capacitanza)"]:::param
+    Ra["Ra (Resistivita assiale)"]:::param
+    gbar_Na["gbar_Na"]:::param
+    gbar_K["gbar_K"]:::param
+    gbar_Ca["gbar_Ca"]:::param
+    gbar_Ih["gbar_Ih"]:::param
+    gbar_SK["gbar_SK"]:::param
+    g_pas["g_pas (leak)"]:::param
+    E_pas["E_pas (leak)"]:::param
+    Na_o["[Na]_o"]:::param
+    Na_i["[Na]_i"]:::param
+    K_o["[K]_o"]:::param
+    K_i["[K]_i"]:::param
+    Ca_o["[Ca]_o"]:::param
+    Ca_min["Ca_min"]:::param
+    gamma["gamma"]:::param
+    depth["depth"]:::param
+    tau_decay["tau_decay"]:::param
+    T["Temperatura"]:::param
+    d_geom["diametro"]:::param
+    L_geom["lunghezza"]:::param
+    R_ij["R_ij (resistenza assiale vicino)"]:::param
+    V_j["V_j (voltaggio vicino)"]:::state_other
+
+    %% Variabili Derivate (D)
+    ENa["ENa"]:::derived
+    EK["EK"]:::derived
+    ECa["ECa"]:::derived
+    Eh["Eh (Ih)"]:::derived
+    g_Na["g_Na (conduttanza Na)"]:::derived
+    g_K["g_K (conduttanza K)"]:::derived
+    g_Ca["g_Ca (conduttanza Ca)"]:::derived
+    g_Ih["g_Ih (conduttanza Ih)"]:::derived
+    g_SK["g_SK (conduttanza SK)"]:::derived
+    g_total["g_total"]:::derived
+    I_Na["I_Na"]:::derived
+    I_K["I_K"]:::derived
+    I_Ca["I_Ca"]:::derived
+    I_Ih["I_Ih"]:::derived
+    I_SK["I_SK"]:::derived
+    I_leak["I_leak"]:::derived
+    I_ion["I_ion (totale)"]:::derived
+    I_axial_k["I_axial,k"]:::derived
+    I_axial["I_axial (totale)"]:::derived
+    I_inj["I_inj (input)"]:::input
+    dVdt["dV/dt"]:::derived
+    dCa_idt["dCa_i/dt"]:::derived
+    Q["Q (carica)"]:::derived
+
+    Na_o --> ENa
+    Na_i --> ENa
+    T --> ENa
+    K_o --> EK
+    K_i --> EK
+    T --> EK
+    Ca_o --> ECa
+    Ca_i --> ECa
+    T --> ECa
+    gbar_Na --> g_Na
+    gate_m_Na --> g_Na
+    gate_h_Na --> g_Na
+    gbar_K --> g_K
+    gate_m_K --> g_K
+    gate_h_K --> g_K
+    gbar_Ca --> g_Ca
+    gate_m_Ca --> g_Ca
+    gate_h_Ca --> g_Ca
+    gbar_Ih --> g_Ih
+    gate_m_Ih --> g_Ih
+    gbar_SK --> g_SK
+    gate_z_SK --> g_SK
+    g_pas --> g_total
+    g_Na --> g_total
+    g_K --> g_total
+    g_Ca --> g_total
+    g_Ih --> g_total
+    g_SK --> g_total
+    V --> I_Na
+    ENa --> I_Na
+    g_Na --> I_Na
+    V --> I_K
+    EK --> I_K
+    g_K --> I_K
+    V --> I_Ca
+    ECa --> I_Ca
+    g_Ca --> I_Ca
+    V --> I_Ih
+    Eh --> I_Ih
+    g_Ih --> I_Ih
+    V --> I_SK
+    EK --> I_SK
+    g_SK --> I_SK
+    V --> I_leak
+    E_pas --> I_leak
+    g_pas --> I_leak
+    I_Na --> I_ion
+    I_K --> I_ion
+    I_Ca --> I_ion
+    I_Ih --> I_ion
+    I_SK --> I_ion
+    I_leak --> I_ion
+    V_j --> I_axial_k
+    V --> I_axial_k
+    R_ij --> I_axial_k
+    I_axial_k --> I_axial
+    I_ion --> dVdt
+    I_axial --> dVdt
+    I_inj --> dVdt
+    Cm --> dVdt
+    dVdt --> V
+    I_Ca --> dCa_idt
+    Ca_i --> dCa_idt
+    gamma --> dCa_idt
+    depth --> dCa_idt
+    tau_decay --> dCa_idt
+    Ca_min --> dCa_idt
+    dCa_idt --> Ca_i
+    V --> Q
+    Cm --> Q
+
+    classDef state fill:#ff9999,stroke:#333,stroke-width:2px
+    classDef state_other fill:#ffcccc,stroke:#333,stroke-width:2px
+    classDef param fill:#99ccff,stroke:#333,stroke-width:2px
+    classDef derived fill:#ffff99,stroke:#333,stroke-width:2px
+    classDef input fill:#99ff99,stroke:#333,stroke-width:2px

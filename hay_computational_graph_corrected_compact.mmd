@@ -1,0 +1,370 @@
+graph TD
+    %% Hay et al. 2011 - grafo computazionale compatto, a livello di meccanismi.
+    %% Convenzione colori come nel primo grafo:
+    %% rosso = variabili di stato, rosa = stato vicino, azzurro = parametri,
+    %% giallo = derivate/intermedie, verde = input.
+
+    %% Core state variables
+    V["v (membrane voltage)"]:::state
+    cai["cai (internal Ca2+)"]:::state
+
+    %% Morphology and cable coupling
+    morphology["morphology/topology (.asc)"]:::param
+    L["L"]:::param
+    diam["diam"]:::param
+    nseg["nseg"]:::param
+    Ra["Ra"]:::param
+    cm["cm"]:::param
+    area["segment area"]:::derived
+    Rij["R_ij (axial resistance)"]:::derived
+    Vj["v_j (neighbor voltage)"]:::state_other
+    Iax_k["I_axial,k"]:::derived
+    Iax["I_axial total"]:::derived
+
+    morphology --> L
+    morphology --> diam
+    morphology --> nseg
+    L --> area
+    diam --> area
+    L --> Rij
+    diam --> Rij
+    Ra --> Rij
+    V --> Iax_k
+    Vj --> Iax_k
+    Rij --> Iax_k
+    Iax_k --> Iax
+
+    %% Ion reversal potentials and fixed reversal parameters
+    ena["ena = 50 mV"]:::param
+    ek["ek = -85 mV"]:::param
+    eca["eca (NEURON ca reversal)"]:::param
+    ehcn["ehcn = -45 mV"]:::param
+    e_pas["e_pas = -90 mV"]:::param
+
+    %% Passive current
+    g_pas["g_pas"]:::param
+    I_pas["i_pas = g_pas * (v - e_pas)"]:::derived
+    V --> I_pas
+    g_pas --> I_pas
+    e_pas --> I_pas
+
+    %% Sodium mechanisms
+    gbar_NaTa["gNaTa_tbar"]:::param
+    gbar_NaTs2["gNaTs2_tbar"]:::param
+    gbar_Nap["gNap_Et2bar"]:::param
+    m_NaTa["m_NaTa_t"]:::state
+    h_NaTa["h_NaTa_t"]:::state
+    m_NaTs2["m_NaTs2_t"]:::state
+    h_NaTs2["h_NaTs2_t"]:::state
+    m_Nap["m_Nap_Et2"]:::state
+    h_Nap["h_Nap_Et2"]:::state
+    g_NaTa["gNaTa_t = gbar*m^3*h"]:::derived
+    g_NaTs2["gNaTs2_t = gbar*m^3*h"]:::derived
+    g_Nap["gNap_Et2 = gbar*m^3*h"]:::derived
+    I_NaTa["ina_NaTa_t"]:::derived
+    I_NaTs2["ina_NaTs2_t"]:::derived
+    I_Nap["ina_Nap_Et2"]:::derived
+    I_Na_total["ina total"]:::derived
+
+    V --> m_NaTa
+    V --> h_NaTa
+    V --> m_NaTs2
+    V --> h_NaTs2
+    V --> m_Nap
+    V --> h_Nap
+    gbar_NaTa --> g_NaTa
+    m_NaTa --> g_NaTa
+    h_NaTa --> g_NaTa
+    gbar_NaTs2 --> g_NaTs2
+    m_NaTs2 --> g_NaTs2
+    h_NaTs2 --> g_NaTs2
+    gbar_Nap --> g_Nap
+    m_Nap --> g_Nap
+    h_Nap --> g_Nap
+    V --> I_NaTa
+    ena --> I_NaTa
+    g_NaTa --> I_NaTa
+    V --> I_NaTs2
+    ena --> I_NaTs2
+    g_NaTs2 --> I_NaTs2
+    V --> I_Nap
+    ena --> I_Nap
+    g_Nap --> I_Nap
+    I_NaTa --> I_Na_total
+    I_NaTs2 --> I_Na_total
+    I_Nap --> I_Na_total
+
+    %% Potassium voltage-gated and calcium-gated mechanisms
+    gbar_KT["gK_Tstbar"]:::param
+    gbar_KP["gK_Pstbar"]:::param
+    gbar_SKv["gSKv3_1bar"]:::param
+    gbar_Im["gImbar"]:::param
+    gbar_SKE2["gSK_E2bar"]:::param
+    m_KT["m_K_Tst"]:::state
+    h_KT["h_K_Tst"]:::state
+    m_KP["m_K_Pst"]:::state
+    h_KP["h_K_Pst"]:::state
+    m_SKv["m_SKv3_1"]:::state
+    m_Im["m_Im"]:::state
+    z_SKE2["z_SK_E2"]:::state
+    g_KT["gK_Tst = gbar*m^4*h"]:::derived
+    g_KP["gK_Pst = gbar*m^2*h"]:::derived
+    g_SKv["gSKv3_1 = gbar*m"]:::derived
+    g_Im["gIm = gbar*m"]:::derived
+    g_SKE2["gSK_E2 = gbar*z"]:::derived
+    I_KT["ik_K_Tst"]:::derived
+    I_KP["ik_K_Pst"]:::derived
+    I_SKv["ik_SKv3_1"]:::derived
+    I_Im["ik_Im"]:::derived
+    I_SKE2["ik_SK_E2"]:::derived
+    I_K_total["ik total"]:::derived
+
+    V --> m_KT
+    V --> h_KT
+    V --> m_KP
+    V --> h_KP
+    V --> m_SKv
+    V --> m_Im
+    cai --> z_SKE2
+    gbar_KT --> g_KT
+    m_KT --> g_KT
+    h_KT --> g_KT
+    gbar_KP --> g_KP
+    m_KP --> g_KP
+    h_KP --> g_KP
+    gbar_SKv --> g_SKv
+    m_SKv --> g_SKv
+    gbar_Im --> g_Im
+    m_Im --> g_Im
+    gbar_SKE2 --> g_SKE2
+    z_SKE2 --> g_SKE2
+    V --> I_KT
+    ek --> I_KT
+    g_KT --> I_KT
+    V --> I_KP
+    ek --> I_KP
+    g_KP --> I_KP
+    V --> I_SKv
+    ek --> I_SKv
+    g_SKv --> I_SKv
+    V --> I_Im
+    ek --> I_Im
+    g_Im --> I_Im
+    V --> I_SKE2
+    ek --> I_SKE2
+    g_SKE2 --> I_SKE2
+    I_KT --> I_K_total
+    I_KP --> I_K_total
+    I_SKv --> I_K_total
+    I_Im --> I_K_total
+    I_SKE2 --> I_K_total
+
+    %% Calcium mechanisms and calcium dynamics
+    gbar_CaHVA["gCa_HVAbar"]:::param
+    gbar_CaLVA["gCa_LVAstbar"]:::param
+    m_CaHVA["m_Ca_HVA"]:::state
+    h_CaHVA["h_Ca_HVA"]:::state
+    m_CaLVA["m_Ca_LVAst"]:::state
+    h_CaLVA["h_Ca_LVAst"]:::state
+    g_CaHVA["gCa_HVA = gbar*m^2*h"]:::derived
+    g_CaLVA["gCa_LVAst = gbar*m^2*h"]:::derived
+    I_CaHVA["ica_Ca_HVA"]:::derived
+    I_CaLVA["ica_Ca_LVAst"]:::derived
+    ica_total["ica total"]:::derived
+    gamma["gamma_CaDynamics_E2"]:::param
+    decay["decay_CaDynamics_E2"]:::param
+    depth["depth_CaDynamics_E2"]:::param
+    minCai["minCai_CaDynamics_E2"]:::param
+    faraday["FARADAY"]:::param
+    dcai_dt["dcai/dt"]:::derived
+
+    V --> m_CaHVA
+    V --> h_CaHVA
+    V --> m_CaLVA
+    V --> h_CaLVA
+    gbar_CaHVA --> g_CaHVA
+    m_CaHVA --> g_CaHVA
+    h_CaHVA --> g_CaHVA
+    gbar_CaLVA --> g_CaLVA
+    m_CaLVA --> g_CaLVA
+    h_CaLVA --> g_CaLVA
+    V --> I_CaHVA
+    eca --> I_CaHVA
+    g_CaHVA --> I_CaHVA
+    V --> I_CaLVA
+    eca --> I_CaLVA
+    g_CaLVA --> I_CaLVA
+    I_CaHVA --> ica_total
+    I_CaLVA --> ica_total
+    ica_total --> dcai_dt
+    cai --> dcai_dt
+    gamma --> dcai_dt
+    decay --> dcai_dt
+    depth --> dcai_dt
+    minCai --> dcai_dt
+    faraday --> dcai_dt
+    dcai_dt --> cai
+
+    %% Ih mechanism
+    gbar_Ih["gIhbar"]:::param
+    m_Ih["m_Ih"]:::state
+    g_Ih["gIh = gbar*m"]:::derived
+    I_Ih["ihcn"]:::derived
+
+    V --> m_Ih
+    gbar_Ih --> g_Ih
+    m_Ih --> g_Ih
+    V --> I_Ih
+    ehcn --> I_Ih
+    g_Ih --> I_Ih
+
+    %% External inputs and final voltage update
+    IClamp["IClamp / injected current"]:::input
+    epsp["epsp synaptic current"]:::input
+    I_membrane["ionic + passive current total"]:::derived
+    dVdt["dv/dt"]:::derived
+    Q["Q = cm * v"]:::derived
+
+    I_Na_total --> I_membrane
+    I_K_total --> I_membrane
+    ica_total --> I_membrane
+    I_Ih --> I_membrane
+    I_pas --> I_membrane
+    I_membrane --> dVdt
+    Iax --> dVdt
+    IClamp --> dVdt
+    epsp --> dVdt
+    cm --> dVdt
+    area --> dVdt
+    dVdt --> V
+    cm --> Q
+    V --> Q
+
+    %% Spatial distribution of mechanisms
+    section_type["section type: soma/apic/basal/axon"]:::param
+    distance_soma["distance from soma"]:::param
+    distribution_rule["distribute_channels()"]:::derived
+    model_set["L5PCbiophys1-4 parameter set"]:::param
+
+    section_type --> gbar_NaTa
+    section_type --> gbar_NaTs2
+    section_type --> gbar_Nap
+    section_type --> gbar_KT
+    section_type --> gbar_KP
+    section_type --> gbar_SKv
+    section_type --> gbar_Im
+    section_type --> gbar_SKE2
+    section_type --> gbar_CaHVA
+    section_type --> gbar_CaLVA
+    section_type --> gbar_Ih
+    distance_soma --> distribution_rule
+    model_set --> distribution_rule
+    distribution_rule --> gbar_Ih
+    distribution_rule --> gbar_CaHVA
+    distribution_rule --> gbar_CaLVA
+
+    classDef state fill:#ff9999,stroke:#333,stroke-width:2px
+    classDef state_other fill:#ffcccc,stroke:#333,stroke-width:2px
+    classDef param fill:#99ccff,stroke:#333,stroke-width:2px
+    classDef derived fill:#ffff99,stroke:#333,stroke-width:2px
+    classDef input fill:#99ff99,stroke:#333,stroke-width:2px
+
+    class V,cai,m_NaTa,h_NaTa,m_NaTs2,h_NaTs2,m_Nap,h_Nap,m_KT,h_KT,m_KP,h_KP,m_SKv,m_Im,z_SKE2,m_CaHVA,h_CaHVA,m_CaLVA,h_CaLVA,m_Ih state
+    class Vj state_other
+    class morphology,L,diam,nseg,Ra,cm,ena,ek,eca,ehcn,e_pas,g_pas,gbar_NaTa,gbar_NaTs2,gbar_Nap,gbar_KT,gbar_KP,gbar_SKv,gbar_Im,gbar_SKE2,gbar_CaHVA,gbar_CaLVA,gamma,decay,depth,minCai,faraday,gbar_Ih,section_type,distance_soma,model_set param
+    class area,Rij,Iax_k,Iax,I_pas,g_NaTa,g_NaTs2,g_Nap,I_NaTa,I_NaTs2,I_Nap,I_Na_total,g_KT,g_KP,g_SKv,g_Im,g_SKE2,I_KT,I_KP,I_SKv,I_Im,I_SKE2,I_K_total,g_CaHVA,g_CaLVA,I_CaHVA,I_CaLVA,ica_total,dcai_dt,g_Ih,I_Ih,I_membrane,dVdt,Q,distribution_rule derived
+    class IClamp,epsp input
+
+    %% Direct styles for Mermaid renderers that ignore classDef/class.
+    style V fill:#ff9999,stroke:#333,stroke-width:2px
+    style cai fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_NaTa fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_NaTa fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_NaTs2 fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_NaTs2 fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_Nap fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_Nap fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_KT fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_KT fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_KP fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_KP fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_SKv fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_Im fill:#ff9999,stroke:#333,stroke-width:2px
+    style z_SKE2 fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_CaHVA fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_CaHVA fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_CaLVA fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_CaLVA fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_Ih fill:#ff9999,stroke:#333,stroke-width:2px
+    style Vj fill:#ffcccc,stroke:#333,stroke-width:2px
+
+    style morphology fill:#99ccff,stroke:#333,stroke-width:2px
+    style L fill:#99ccff,stroke:#333,stroke-width:2px
+    style diam fill:#99ccff,stroke:#333,stroke-width:2px
+    style nseg fill:#99ccff,stroke:#333,stroke-width:2px
+    style Ra fill:#99ccff,stroke:#333,stroke-width:2px
+    style cm fill:#99ccff,stroke:#333,stroke-width:2px
+    style ena fill:#99ccff,stroke:#333,stroke-width:2px
+    style ek fill:#99ccff,stroke:#333,stroke-width:2px
+    style eca fill:#99ccff,stroke:#333,stroke-width:2px
+    style ehcn fill:#99ccff,stroke:#333,stroke-width:2px
+    style e_pas fill:#99ccff,stroke:#333,stroke-width:2px
+    style g_pas fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_NaTa fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_NaTs2 fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_Nap fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_KT fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_KP fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_SKv fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_Im fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_SKE2 fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_CaHVA fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_CaLVA fill:#99ccff,stroke:#333,stroke-width:2px
+    style gamma fill:#99ccff,stroke:#333,stroke-width:2px
+    style decay fill:#99ccff,stroke:#333,stroke-width:2px
+    style depth fill:#99ccff,stroke:#333,stroke-width:2px
+    style minCai fill:#99ccff,stroke:#333,stroke-width:2px
+    style faraday fill:#99ccff,stroke:#333,stroke-width:2px
+    style gbar_Ih fill:#99ccff,stroke:#333,stroke-width:2px
+    style section_type fill:#99ccff,stroke:#333,stroke-width:2px
+    style distance_soma fill:#99ccff,stroke:#333,stroke-width:2px
+    style model_set fill:#99ccff,stroke:#333,stroke-width:2px
+
+    style area fill:#ffff99,stroke:#333,stroke-width:2px
+    style Rij fill:#ffff99,stroke:#333,stroke-width:2px
+    style Iax_k fill:#ffff99,stroke:#333,stroke-width:2px
+    style Iax fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_pas fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_NaTa fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_NaTs2 fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_Nap fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_NaTa fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_NaTs2 fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_Nap fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_Na_total fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_KT fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_KP fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_SKv fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_Im fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_SKE2 fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_KT fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_KP fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_SKv fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_Im fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_SKE2 fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_K_total fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_CaHVA fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_CaLVA fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_CaHVA fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_CaLVA fill:#ffff99,stroke:#333,stroke-width:2px
+    style ica_total fill:#ffff99,stroke:#333,stroke-width:2px
+    style dcai_dt fill:#ffff99,stroke:#333,stroke-width:2px
+    style g_Ih fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_Ih fill:#ffff99,stroke:#333,stroke-width:2px
+    style I_membrane fill:#ffff99,stroke:#333,stroke-width:2px
+    style dVdt fill:#ffff99,stroke:#333,stroke-width:2px
+    style Q fill:#ffff99,stroke:#333,stroke-width:2px
+    style distribution_rule fill:#ffff99,stroke:#333,stroke-width:2px
+
+    style IClamp fill:#99ff99,stroke:#333,stroke-width:2px
+    style epsp fill:#99ff99,stroke:#333,stroke-width:2px

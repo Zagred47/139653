@@ -1,0 +1,186 @@
+graph TD
+    %% Hay et al. 2011 - grafo espanso per dinamiche dei gate/rate.
+    %% Convenzione colori come nel primo grafo:
+    %% rosso = variabili di stato, azzurro = parametri,
+    %% giallo = derivate/intermedie.
+
+    %% Shared membrane state
+    V["v"]:::state
+    cai["cai"]:::state
+
+    %% Generic voltage-gated m gate pattern
+    subgraph VmGate["Generic voltage-gated activation gate"]
+        V_m["v"]:::state
+        rate_params_m["rate parameters / shifts / q10"]:::param
+        alpha_m["alpha_m(v)"]:::derived
+        beta_m["beta_m(v)"]:::derived
+        xInf_m["mInf"]:::derived
+        xTau_m["mTau"]:::derived
+        dmdt["dm/dt = (mInf - m) / mTau"]:::derived
+        m_gate["m"]:::state
+        V_m --> alpha_m
+        V_m --> beta_m
+        rate_params_m --> alpha_m
+        rate_params_m --> beta_m
+        alpha_m --> xInf_m
+        beta_m --> xInf_m
+        alpha_m --> xTau_m
+        beta_m --> xTau_m
+        xInf_m --> dmdt
+        xTau_m --> dmdt
+        m_gate --> dmdt
+        dmdt --> m_gate
+    end
+
+    %% Generic voltage-gated h gate pattern
+    subgraph VhGate["Generic voltage-gated inactivation gate"]
+        V_h["v"]:::state
+        rate_params_h["rate parameters / shifts / q10"]:::param
+        alpha_h["alpha_h(v)"]:::derived
+        beta_h["beta_h(v)"]:::derived
+        xInf_h["hInf"]:::derived
+        xTau_h["hTau"]:::derived
+        dhdt["dh/dt = (hInf - h) / hTau"]:::derived
+        h_gate["h"]:::state
+        V_h --> alpha_h
+        V_h --> beta_h
+        rate_params_h --> alpha_h
+        rate_params_h --> beta_h
+        alpha_h --> xInf_h
+        beta_h --> xInf_h
+        alpha_h --> xTau_h
+        beta_h --> xTau_h
+        xInf_h --> dhdt
+        xTau_h --> dhdt
+        h_gate --> dhdt
+        dhdt --> h_gate
+    end
+
+    %% Calcium-gated SK_E2 pattern
+    subgraph CaGate["SK_E2 calcium-gated z gate"]
+        cai_SK["cai"]:::state
+        ca_floor["ca floor: if ca < 1e-7 then ca += 1e-7"]:::derived
+        zInf["zInf = 1 / (1 + (0.00043 / ca)^4.8)"]:::derived
+        zTau["zTau = 1 ms"]:::param
+        dzdt["dz/dt = (zInf - z) / zTau"]:::derived
+        z_gate["z"]:::state
+        cai_SK --> ca_floor
+        ca_floor --> zInf
+        zInf --> dzdt
+        zTau --> dzdt
+        z_gate --> dzdt
+        dzdt --> z_gate
+    end
+
+    %% Calcium concentration dynamics
+    subgraph CaDynamics["CaDynamics_E2"]
+        ica["ica = iCa_HVA + iCa_LVAst"]:::derived
+        gamma["gamma"]:::param
+        depth["depth"]:::param
+        faraday["FARADAY"]:::param
+        minCai["minCai"]:::param
+        decay["decay"]:::param
+        dcai["dcai/dt = -10000 * ica * gamma / (2 * FARADAY * depth) - (cai - minCai) / decay"]:::derived
+        cai_state["cai"]:::state
+        ica --> dcai
+        gamma --> dcai
+        depth --> dcai
+        faraday --> dcai
+        minCai --> dcai
+        decay --> dcai
+        cai_state --> dcai
+        dcai --> cai_state
+    end
+
+    %% Mechanism-to-gate map
+    subgraph ChannelMap["Mechanisms and gate exponents"]
+        NaTa["NaTa_t: g = gbar * m^3 * h"]:::derived
+        NaTs2["NaTs2_t: g = gbar * m^3 * h"]:::derived
+        Nap["Nap_Et2: g = gbar * m^3 * h"]:::derived
+        KT["K_Tst: g = gbar * m^4 * h"]:::derived
+        KP["K_Pst: g = gbar * m^2 * h"]:::derived
+        CaHVA["Ca_HVA: g = gbar * m^2 * h"]:::derived
+        CaLVA["Ca_LVAst: g = gbar * m^2 * h"]:::derived
+        SKv["SKv3_1: g = gbar * m"]:::derived
+        Im["Im: g = gbar * m"]:::derived
+        Ih["Ih: g = gbar * m"]:::derived
+        SKE2["SK_E2: g = gbar * z"]:::derived
+    end
+
+    V --> V_m
+    V --> V_h
+    cai --> cai_SK
+    cai --> cai_state
+    m_gate --> NaTa
+    h_gate --> NaTa
+    m_gate --> NaTs2
+    h_gate --> NaTs2
+    m_gate --> Nap
+    h_gate --> Nap
+    m_gate --> KT
+    h_gate --> KT
+    m_gate --> KP
+    h_gate --> KP
+    m_gate --> CaHVA
+    h_gate --> CaHVA
+    m_gate --> CaLVA
+    h_gate --> CaLVA
+    m_gate --> SKv
+    m_gate --> Im
+    m_gate --> Ih
+    z_gate --> SKE2
+
+    classDef state fill:#ff9999,stroke:#333,stroke-width:2px
+    classDef param fill:#99ccff,stroke:#333,stroke-width:2px
+    classDef derived fill:#ffff99,stroke:#333,stroke-width:2px
+
+    class V,cai,V_m,m_gate,V_h,h_gate,cai_SK,z_gate,cai_state state
+    class rate_params_m,rate_params_h,zTau,gamma,depth,faraday,minCai,decay param
+    class alpha_m,beta_m,xInf_m,xTau_m,dmdt,alpha_h,beta_h,xInf_h,xTau_h,dhdt,ca_floor,zInf,dzdt,ica,dcai,NaTa,NaTs2,Nap,KT,KP,CaHVA,CaLVA,SKv,Im,Ih,SKE2 derived
+
+    %% Direct styles for Mermaid renderers that ignore classDef/class.
+    style V fill:#ff9999,stroke:#333,stroke-width:2px
+    style cai fill:#ff9999,stroke:#333,stroke-width:2px
+    style V_m fill:#ff9999,stroke:#333,stroke-width:2px
+    style m_gate fill:#ff9999,stroke:#333,stroke-width:2px
+    style V_h fill:#ff9999,stroke:#333,stroke-width:2px
+    style h_gate fill:#ff9999,stroke:#333,stroke-width:2px
+    style cai_SK fill:#ff9999,stroke:#333,stroke-width:2px
+    style z_gate fill:#ff9999,stroke:#333,stroke-width:2px
+    style cai_state fill:#ff9999,stroke:#333,stroke-width:2px
+
+    style rate_params_m fill:#99ccff,stroke:#333,stroke-width:2px
+    style rate_params_h fill:#99ccff,stroke:#333,stroke-width:2px
+    style zTau fill:#99ccff,stroke:#333,stroke-width:2px
+    style gamma fill:#99ccff,stroke:#333,stroke-width:2px
+    style depth fill:#99ccff,stroke:#333,stroke-width:2px
+    style faraday fill:#99ccff,stroke:#333,stroke-width:2px
+    style minCai fill:#99ccff,stroke:#333,stroke-width:2px
+    style decay fill:#99ccff,stroke:#333,stroke-width:2px
+
+    style alpha_m fill:#ffff99,stroke:#333,stroke-width:2px
+    style beta_m fill:#ffff99,stroke:#333,stroke-width:2px
+    style xInf_m fill:#ffff99,stroke:#333,stroke-width:2px
+    style xTau_m fill:#ffff99,stroke:#333,stroke-width:2px
+    style dmdt fill:#ffff99,stroke:#333,stroke-width:2px
+    style alpha_h fill:#ffff99,stroke:#333,stroke-width:2px
+    style beta_h fill:#ffff99,stroke:#333,stroke-width:2px
+    style xInf_h fill:#ffff99,stroke:#333,stroke-width:2px
+    style xTau_h fill:#ffff99,stroke:#333,stroke-width:2px
+    style dhdt fill:#ffff99,stroke:#333,stroke-width:2px
+    style ca_floor fill:#ffff99,stroke:#333,stroke-width:2px
+    style zInf fill:#ffff99,stroke:#333,stroke-width:2px
+    style dzdt fill:#ffff99,stroke:#333,stroke-width:2px
+    style ica fill:#ffff99,stroke:#333,stroke-width:2px
+    style dcai fill:#ffff99,stroke:#333,stroke-width:2px
+    style NaTa fill:#ffff99,stroke:#333,stroke-width:2px
+    style NaTs2 fill:#ffff99,stroke:#333,stroke-width:2px
+    style Nap fill:#ffff99,stroke:#333,stroke-width:2px
+    style KT fill:#ffff99,stroke:#333,stroke-width:2px
+    style KP fill:#ffff99,stroke:#333,stroke-width:2px
+    style CaHVA fill:#ffff99,stroke:#333,stroke-width:2px
+    style CaLVA fill:#ffff99,stroke:#333,stroke-width:2px
+    style SKv fill:#ffff99,stroke:#333,stroke-width:2px
+    style Im fill:#ffff99,stroke:#333,stroke-width:2px
+    style Ih fill:#ffff99,stroke:#333,stroke-width:2px
+    style SKE2 fill:#ffff99,stroke:#333,stroke-width:2px
