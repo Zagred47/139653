@@ -60,6 +60,36 @@ graph TD
     h_NaTs2["h_NaTs2_t"]:::state
     m_Nap["m_Nap_Et2"]:::state
     h_Nap["h_Nap_Et2"]:::state
+    mAlpha_NaTa["mAlpha_NaTa_t(v)"]:::derived
+    mBeta_NaTa["mBeta_NaTa_t(v)"]:::derived
+    mInf_NaTa["mInf_NaTa_t"]:::derived
+    mTau_NaTa["mTau_NaTa_t"]:::derived
+    dm_NaTa_dt["dm_NaTa_t/dt"]:::derived
+    hAlpha_NaTa["hAlpha_NaTa_t(v)"]:::derived
+    hBeta_NaTa["hBeta_NaTa_t(v)"]:::derived
+    hInf_NaTa["hInf_NaTa_t"]:::derived
+    hTau_NaTa["hTau_NaTa_t"]:::derived
+    dh_NaTa_dt["dh_NaTa_t/dt"]:::derived
+    mAlpha_NaTs2["mAlpha_NaTs2_t(v)"]:::derived
+    mBeta_NaTs2["mBeta_NaTs2_t(v)"]:::derived
+    mInf_NaTs2["mInf_NaTs2_t"]:::derived
+    mTau_NaTs2["mTau_NaTs2_t"]:::derived
+    dm_NaTs2_dt["dm_NaTs2_t/dt"]:::derived
+    hAlpha_NaTs2["hAlpha_NaTs2_t(v)"]:::derived
+    hBeta_NaTs2["hBeta_NaTs2_t(v)"]:::derived
+    hInf_NaTs2["hInf_NaTs2_t"]:::derived
+    hTau_NaTs2["hTau_NaTs2_t"]:::derived
+    dh_NaTs2_dt["dh_NaTs2_t/dt"]:::derived
+    mAlpha_Nap["mAlpha_Nap_Et2(v)"]:::derived
+    mBeta_Nap["mBeta_Nap_Et2(v)"]:::derived
+    mInf_Nap["mInf_Nap_Et2(v)"]:::derived
+    mTau_Nap["mTau_Nap_Et2"]:::derived
+    dm_Nap_dt["dm_Nap_Et2/dt"]:::derived
+    hAlpha_Nap["hAlpha_Nap_Et2(v)"]:::derived
+    hBeta_Nap["hBeta_Nap_Et2(v)"]:::derived
+    hInf_Nap["hInf_Nap_Et2(v)"]:::derived
+    hTau_Nap["hTau_Nap_Et2"]:::derived
+    dh_Nap_dt["dh_Nap_Et2/dt"]:::derived
     g_NaTa["gNaTa_t = gbar*m^3*h"]:::derived
     g_NaTs2["gNaTs2_t = gbar*m^3*h"]:::derived
     g_Nap["gNap_Et2 = gbar*m^3*h"]:::derived
@@ -68,12 +98,64 @@ graph TD
     I_Nap["ina_Nap_Et2"]:::derived
     I_Na_total["ina total"]:::derived
 
-    V --> m_NaTa
-    V --> h_NaTa
-    V --> m_NaTs2
-    V --> h_NaTs2
-    V --> m_Nap
-    V --> h_Nap
+    V --> mAlpha_NaTa
+    V --> mBeta_NaTa
+    mAlpha_NaTa --> mInf_NaTa
+    mBeta_NaTa --> mInf_NaTa
+    mAlpha_NaTa --> mTau_NaTa
+    mBeta_NaTa --> mTau_NaTa
+    mInf_NaTa --> dm_NaTa_dt
+    mTau_NaTa --> dm_NaTa_dt
+    m_NaTa --> dm_NaTa_dt
+    dm_NaTa_dt --> m_NaTa
+    V --> hAlpha_NaTa
+    V --> hBeta_NaTa
+    hAlpha_NaTa --> hInf_NaTa
+    hBeta_NaTa --> hInf_NaTa
+    hAlpha_NaTa --> hTau_NaTa
+    hBeta_NaTa --> hTau_NaTa
+    hInf_NaTa --> dh_NaTa_dt
+    hTau_NaTa --> dh_NaTa_dt
+    h_NaTa --> dh_NaTa_dt
+    dh_NaTa_dt --> h_NaTa
+    V --> mAlpha_NaTs2
+    V --> mBeta_NaTs2
+    mAlpha_NaTs2 --> mInf_NaTs2
+    mBeta_NaTs2 --> mInf_NaTs2
+    mAlpha_NaTs2 --> mTau_NaTs2
+    mBeta_NaTs2 --> mTau_NaTs2
+    mInf_NaTs2 --> dm_NaTs2_dt
+    mTau_NaTs2 --> dm_NaTs2_dt
+    m_NaTs2 --> dm_NaTs2_dt
+    dm_NaTs2_dt --> m_NaTs2
+    V --> hAlpha_NaTs2
+    V --> hBeta_NaTs2
+    hAlpha_NaTs2 --> hInf_NaTs2
+    hBeta_NaTs2 --> hInf_NaTs2
+    hAlpha_NaTs2 --> hTau_NaTs2
+    hBeta_NaTs2 --> hTau_NaTs2
+    hInf_NaTs2 --> dh_NaTs2_dt
+    hTau_NaTs2 --> dh_NaTs2_dt
+    h_NaTs2 --> dh_NaTs2_dt
+    dh_NaTs2_dt --> h_NaTs2
+    V --> mInf_Nap
+    V --> mAlpha_Nap
+    V --> mBeta_Nap
+    mAlpha_Nap --> mTau_Nap
+    mBeta_Nap --> mTau_Nap
+    mInf_Nap --> dm_Nap_dt
+    mTau_Nap --> dm_Nap_dt
+    m_Nap --> dm_Nap_dt
+    dm_Nap_dt --> m_Nap
+    V --> hInf_Nap
+    V --> hAlpha_Nap
+    V --> hBeta_Nap
+    hAlpha_Nap --> hTau_Nap
+    hBeta_Nap --> hTau_Nap
+    hInf_Nap --> dh_Nap_dt
+    hTau_Nap --> dh_Nap_dt
+    h_Nap --> dh_Nap_dt
+    dh_Nap_dt --> h_Nap
     gbar_NaTa --> g_NaTa
     m_NaTa --> g_NaTa
     h_NaTa --> g_NaTa
@@ -109,6 +191,30 @@ graph TD
     m_SKv["m_SKv3_1"]:::state
     m_Im["m_Im"]:::state
     z_SKE2["z_SK_E2"]:::state
+    mInf_KT["mInf_K_Tst(v)"]:::derived
+    mTau_KT["mTau_K_Tst(v)"]:::derived
+    dm_KT_dt["dm_K_Tst/dt"]:::derived
+    hInf_KT["hInf_K_Tst(v)"]:::derived
+    hTau_KT["hTau_K_Tst(v)"]:::derived
+    dh_KT_dt["dh_K_Tst/dt"]:::derived
+    mInf_KP["mInf_K_Pst(v)"]:::derived
+    mTau_KP["mTau_K_Pst(v)"]:::derived
+    dm_KP_dt["dm_K_Pst/dt"]:::derived
+    hInf_KP["hInf_K_Pst(v)"]:::derived
+    hTau_KP["hTau_K_Pst(v)"]:::derived
+    dh_KP_dt["dh_K_Pst/dt"]:::derived
+    mInf_SKv["mInf_SKv3_1(v)"]:::derived
+    mTau_SKv["mTau_SKv3_1(v)"]:::derived
+    dm_SKv_dt["dm_SKv3_1/dt"]:::derived
+    mAlpha_Im["mAlpha_Im(v)"]:::derived
+    mBeta_Im["mBeta_Im(v)"]:::derived
+    mInf_Im["mInf_Im"]:::derived
+    mTau_Im["mTau_Im"]:::derived
+    dm_Im_dt["dm_Im/dt"]:::derived
+    ca_SK_floor["ca_SK_E2 floor"]:::derived
+    zInf_SKE2["zInf_SK_E2(cai)"]:::derived
+    zTau_SKE2["zTau_SK_E2"]:::param
+    dz_SKE2_dt["dz_SK_E2/dt"]:::derived
     g_KT["gK_Tst = gbar*m^4*h"]:::derived
     g_KP["gK_Pst = gbar*m^2*h"]:::derived
     g_SKv["gSKv3_1 = gbar*m"]:::derived
@@ -121,13 +227,52 @@ graph TD
     I_SKE2["ik_SK_E2"]:::derived
     I_K_total["ik total"]:::derived
 
-    V --> m_KT
-    V --> h_KT
-    V --> m_KP
-    V --> h_KP
-    V --> m_SKv
-    V --> m_Im
-    cai --> z_SKE2
+    V --> mInf_KT
+    V --> mTau_KT
+    mInf_KT --> dm_KT_dt
+    mTau_KT --> dm_KT_dt
+    m_KT --> dm_KT_dt
+    dm_KT_dt --> m_KT
+    V --> hInf_KT
+    V --> hTau_KT
+    hInf_KT --> dh_KT_dt
+    hTau_KT --> dh_KT_dt
+    h_KT --> dh_KT_dt
+    dh_KT_dt --> h_KT
+    V --> mInf_KP
+    V --> mTau_KP
+    mInf_KP --> dm_KP_dt
+    mTau_KP --> dm_KP_dt
+    m_KP --> dm_KP_dt
+    dm_KP_dt --> m_KP
+    V --> hInf_KP
+    V --> hTau_KP
+    hInf_KP --> dh_KP_dt
+    hTau_KP --> dh_KP_dt
+    h_KP --> dh_KP_dt
+    dh_KP_dt --> h_KP
+    V --> mInf_SKv
+    V --> mTau_SKv
+    mInf_SKv --> dm_SKv_dt
+    mTau_SKv --> dm_SKv_dt
+    m_SKv --> dm_SKv_dt
+    dm_SKv_dt --> m_SKv
+    V --> mAlpha_Im
+    V --> mBeta_Im
+    mAlpha_Im --> mInf_Im
+    mBeta_Im --> mInf_Im
+    mAlpha_Im --> mTau_Im
+    mBeta_Im --> mTau_Im
+    mInf_Im --> dm_Im_dt
+    mTau_Im --> dm_Im_dt
+    m_Im --> dm_Im_dt
+    dm_Im_dt --> m_Im
+    cai --> ca_SK_floor
+    ca_SK_floor --> zInf_SKE2
+    zInf_SKE2 --> dz_SKE2_dt
+    zTau_SKE2 --> dz_SKE2_dt
+    z_SKE2 --> dz_SKE2_dt
+    dz_SKE2_dt --> z_SKE2
     gbar_KT --> g_KT
     m_KT --> g_KT
     h_KT --> g_KT
@@ -168,6 +313,22 @@ graph TD
     h_CaHVA["h_Ca_HVA"]:::state
     m_CaLVA["m_Ca_LVAst"]:::state
     h_CaLVA["h_Ca_LVAst"]:::state
+    mAlpha_CaHVA["mAlpha_Ca_HVA(v)"]:::derived
+    mBeta_CaHVA["mBeta_Ca_HVA(v)"]:::derived
+    mInf_CaHVA["mInf_Ca_HVA"]:::derived
+    mTau_CaHVA["mTau_Ca_HVA"]:::derived
+    dm_CaHVA_dt["dm_Ca_HVA/dt"]:::derived
+    hAlpha_CaHVA["hAlpha_Ca_HVA(v)"]:::derived
+    hBeta_CaHVA["hBeta_Ca_HVA(v)"]:::derived
+    hInf_CaHVA["hInf_Ca_HVA"]:::derived
+    hTau_CaHVA["hTau_Ca_HVA"]:::derived
+    dh_CaHVA_dt["dh_Ca_HVA/dt"]:::derived
+    mInf_CaLVA["mInf_Ca_LVAst(v)"]:::derived
+    mTau_CaLVA["mTau_Ca_LVAst(v)"]:::derived
+    dm_CaLVA_dt["dm_Ca_LVAst/dt"]:::derived
+    hInf_CaLVA["hInf_Ca_LVAst(v)"]:::derived
+    hTau_CaLVA["hTau_Ca_LVAst(v)"]:::derived
+    dh_CaLVA_dt["dh_Ca_LVAst/dt"]:::derived
     g_CaHVA["gCa_HVA = gbar*m^2*h"]:::derived
     g_CaLVA["gCa_LVAst = gbar*m^2*h"]:::derived
     I_CaHVA["ica_Ca_HVA"]:::derived
@@ -180,10 +341,38 @@ graph TD
     faraday["FARADAY"]:::param
     dcai_dt["dcai/dt"]:::derived
 
-    V --> m_CaHVA
-    V --> h_CaHVA
-    V --> m_CaLVA
-    V --> h_CaLVA
+    V --> mAlpha_CaHVA
+    V --> mBeta_CaHVA
+    mAlpha_CaHVA --> mInf_CaHVA
+    mBeta_CaHVA --> mInf_CaHVA
+    mAlpha_CaHVA --> mTau_CaHVA
+    mBeta_CaHVA --> mTau_CaHVA
+    mInf_CaHVA --> dm_CaHVA_dt
+    mTau_CaHVA --> dm_CaHVA_dt
+    m_CaHVA --> dm_CaHVA_dt
+    dm_CaHVA_dt --> m_CaHVA
+    V --> hAlpha_CaHVA
+    V --> hBeta_CaHVA
+    hAlpha_CaHVA --> hInf_CaHVA
+    hBeta_CaHVA --> hInf_CaHVA
+    hAlpha_CaHVA --> hTau_CaHVA
+    hBeta_CaHVA --> hTau_CaHVA
+    hInf_CaHVA --> dh_CaHVA_dt
+    hTau_CaHVA --> dh_CaHVA_dt
+    h_CaHVA --> dh_CaHVA_dt
+    dh_CaHVA_dt --> h_CaHVA
+    V --> mInf_CaLVA
+    V --> mTau_CaLVA
+    mInf_CaLVA --> dm_CaLVA_dt
+    mTau_CaLVA --> dm_CaLVA_dt
+    m_CaLVA --> dm_CaLVA_dt
+    dm_CaLVA_dt --> m_CaLVA
+    V --> hInf_CaLVA
+    V --> hTau_CaLVA
+    hInf_CaLVA --> dh_CaLVA_dt
+    hTau_CaLVA --> dh_CaLVA_dt
+    h_CaLVA --> dh_CaLVA_dt
+    dh_CaLVA_dt --> h_CaLVA
     gbar_CaHVA --> g_CaHVA
     m_CaHVA --> g_CaHVA
     h_CaHVA --> g_CaHVA
@@ -210,10 +399,24 @@ graph TD
     %% Ih mechanism
     gbar_Ih["gIhbar"]:::param
     m_Ih["m_Ih"]:::state
+    mAlpha_Ih["mAlpha_Ih(v)"]:::derived
+    mBeta_Ih["mBeta_Ih(v)"]:::derived
+    mInf_Ih["mInf_Ih"]:::derived
+    mTau_Ih["mTau_Ih"]:::derived
+    dm_Ih_dt["dm_Ih/dt"]:::derived
     g_Ih["gIh = gbar*m"]:::derived
     I_Ih["ihcn"]:::derived
 
-    V --> m_Ih
+    V --> mAlpha_Ih
+    V --> mBeta_Ih
+    mAlpha_Ih --> mInf_Ih
+    mBeta_Ih --> mInf_Ih
+    mAlpha_Ih --> mTau_Ih
+    mBeta_Ih --> mTau_Ih
+    mInf_Ih --> dm_Ih_dt
+    mTau_Ih --> dm_Ih_dt
+    m_Ih --> dm_Ih_dt
+    dm_Ih_dt --> m_Ih
     gbar_Ih --> g_Ih
     m_Ih --> g_Ih
     V --> I_Ih
@@ -273,6 +476,6 @@ graph TD
 
     class V,cai,m_NaTa,h_NaTa,m_NaTs2,h_NaTs2,m_Nap,h_Nap,m_KT,h_KT,m_KP,h_KP,m_SKv,m_Im,z_SKE2,m_CaHVA,h_CaHVA,m_CaLVA,h_CaLVA,m_Ih state
     class Vj state_other
-    class morphology,L,diam,nseg,Ra,cm,ena,ek,eca,ehcn,e_pas,g_pas,gbar_NaTa,gbar_NaTs2,gbar_Nap,gbar_KT,gbar_KP,gbar_SKv,gbar_Im,gbar_SKE2,gbar_CaHVA,gbar_CaLVA,gamma,decay,depth,minCai,faraday,gbar_Ih,section_type,distance_soma,model_set param
-    class area,Rij,Iax_k,Iax,I_pas,g_NaTa,g_NaTs2,g_Nap,I_NaTa,I_NaTs2,I_Nap,I_Na_total,g_KT,g_KP,g_SKv,g_Im,g_SKE2,I_KT,I_KP,I_SKv,I_Im,I_SKE2,I_K_total,g_CaHVA,g_CaLVA,I_CaHVA,I_CaLVA,ica_total,dcai_dt,g_Ih,I_Ih,I_membrane,dVdt,Q,distribution_rule derived
+    class morphology,L,diam,nseg,Ra,cm,ena,ek,eca,ehcn,e_pas,g_pas,gbar_NaTa,gbar_NaTs2,gbar_Nap,gbar_KT,gbar_KP,gbar_SKv,gbar_Im,gbar_SKE2,gbar_CaHVA,gbar_CaLVA,gamma,decay,depth,minCai,faraday,gbar_Ih,zTau_SKE2,section_type,distance_soma,model_set param
+    class area,Rij,Iax_k,Iax,I_pas,mAlpha_NaTa,mBeta_NaTa,mInf_NaTa,mTau_NaTa,dm_NaTa_dt,hAlpha_NaTa,hBeta_NaTa,hInf_NaTa,hTau_NaTa,dh_NaTa_dt,mAlpha_NaTs2,mBeta_NaTs2,mInf_NaTs2,mTau_NaTs2,dm_NaTs2_dt,hAlpha_NaTs2,hBeta_NaTs2,hInf_NaTs2,hTau_NaTs2,dh_NaTs2_dt,mAlpha_Nap,mBeta_Nap,mInf_Nap,mTau_Nap,dm_Nap_dt,hAlpha_Nap,hBeta_Nap,hInf_Nap,hTau_Nap,dh_Nap_dt,g_NaTa,g_NaTs2,g_Nap,I_NaTa,I_NaTs2,I_Nap,I_Na_total,mInf_KT,mTau_KT,dm_KT_dt,hInf_KT,hTau_KT,dh_KT_dt,mInf_KP,mTau_KP,dm_KP_dt,hInf_KP,hTau_KP,dh_KP_dt,mInf_SKv,mTau_SKv,dm_SKv_dt,mAlpha_Im,mBeta_Im,mInf_Im,mTau_Im,dm_Im_dt,ca_SK_floor,zInf_SKE2,dz_SKE2_dt,g_KT,g_KP,g_SKv,g_Im,g_SKE2,I_KT,I_KP,I_SKv,I_Im,I_SKE2,I_K_total,mAlpha_CaHVA,mBeta_CaHVA,mInf_CaHVA,mTau_CaHVA,dm_CaHVA_dt,hAlpha_CaHVA,hBeta_CaHVA,hInf_CaHVA,hTau_CaHVA,dh_CaHVA_dt,mInf_CaLVA,mTau_CaLVA,dm_CaLVA_dt,hInf_CaLVA,hTau_CaLVA,dh_CaLVA_dt,g_CaHVA,g_CaLVA,I_CaHVA,I_CaLVA,ica_total,dcai_dt,mAlpha_Ih,mBeta_Ih,mInf_Ih,mTau_Ih,dm_Ih_dt,g_Ih,I_Ih,I_membrane,dVdt,Q,distribution_rule derived
     class IClamp,epsp input
